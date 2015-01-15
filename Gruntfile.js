@@ -85,9 +85,17 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        command: 'git push master'
+        options: {
+          stdout: true,
+          stderr: true
+        },
+        command: [
+          'git push origin master',
+          'git remote add azure https://scottrice10@tim-scott-shortly.scm.azurewebsites.net:443/tim-scott-shortly.git',
+          'git push azure master'
+        ].join('&&')
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -129,7 +137,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      grunt.task.run(['shell']);
+      grunt.task.run(['shell:prodServer']);
     } else {
       grunt.task.run(['server-dev']);
     }
