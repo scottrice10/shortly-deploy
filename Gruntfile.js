@@ -109,7 +109,6 @@ module.exports = function(grunt) {
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
 
-    console.log("CALLING WATCH!")
     grunt.task.run(['watch']);
   });
 
