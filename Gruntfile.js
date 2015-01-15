@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['public/client/*.js'],
-        dest: 'public/client/concat.js'
+        dest: 'public/concat.js'
       }
     },
 
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
         'public/client/*.js'
       ],
       options: {
-        force: 'true',
+        force: false,
         jshintrc: '.jshintrc',
         ignores: [
           'public/lib/**/*.js',
@@ -67,12 +67,15 @@ module.exports = function(grunt) {
       scripts: {
         files: [
           'public/client/**/*.js',
-          'public/lib/**/*.js',
+          'public/lib/**/*.js'
         ],
         tasks: [
           'concat',
           'uglify'
-        ]
+        ],
+        options: {
+          interrupt: true
+        }
       },
       css: {
         files: 'public/*.css',
@@ -84,7 +87,7 @@ module.exports = function(grunt) {
       prodServer: {
         command: 'git push master'
       }
-    }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -106,6 +109,7 @@ module.exports = function(grunt) {
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
 
+    console.log("CALLING WATCH!")
     grunt.task.run(['watch']);
   });
 
@@ -133,9 +137,9 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    grunt.task.run(['test']),
-    grunt.task.run(['build']),
-    grunt.task.run(['upload'])
+    'test',
+    'build',
+    'upload'
   ]);
 
 };
