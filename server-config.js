@@ -31,4 +31,9 @@ app.post('/signup', handler.signupUser);
 
 app.get('/*', handler.navToLink);
 
+app.use(function(err, req, res, next) {
+  console.log(err.stack);
+  res.send(500, err.stack);
+});
+
 module.exports = app;
